@@ -32,6 +32,9 @@ public class FilmController {
             log.error("ошибка валидации даты");
             throw new ValidationException();
         }
+        if (integerFilmMap.containsKey(film.getId())) {
+            throw new ValidationException();
+        }
         film.setId(id++);
         integerFilmMap.put(film.getId(), film);
         log.info("добавление фильма");
