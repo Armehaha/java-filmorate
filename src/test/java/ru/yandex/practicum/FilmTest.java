@@ -52,7 +52,7 @@ public class FilmTest {
     @Test
     public void postFilmDate() {
         final Film film = new Film(0, "sdfadsfs", "adsfafdasdf",
-                LocalDate.of(1895, 12, 28), 100);
+                LocalDate.of(1894, 12, 28), 100);
         final HttpEntity<Film> request = new HttpEntity<>(film);
         final ResponseEntity<Film> response = restTemplate.postForEntity(path, request, Film.class);
         final ResponseEntity<ArrayList> getResponse = restTemplate.getForEntity(path, ArrayList.class);
