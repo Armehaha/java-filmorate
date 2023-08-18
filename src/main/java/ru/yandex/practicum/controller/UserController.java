@@ -27,7 +27,7 @@ public class UserController {
     @PostMapping
     public User postUser(@Valid @RequestBody User user) {
         user.setId(idUser++);
-        integerUserMap.put(user.getId(),user);
+        integerUserMap.put(user.getId(), user);
         log.info("добавление пользователя");
 
         return user;
@@ -35,8 +35,8 @@ public class UserController {
 
     @PutMapping
     public User updateUser(@Valid @RequestBody User user) {
-        if (integerUserMap.containsKey(user.getId())){
-            integerUserMap.put(user.getId(),user);
+        if (integerUserMap.containsKey(user.getId())) {
+            integerUserMap.put(user.getId(), user);
             log.info("изменение пользователя");
 
             return user;
