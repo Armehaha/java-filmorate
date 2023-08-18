@@ -2,8 +2,10 @@ package ru.yandex.practicum.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NonNull;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
@@ -16,5 +18,7 @@ public class Film {
     @Size(max = 200)
     private String description;
     private LocalDate releaseDate;
+    @Positive
+    @NonNull
     private int duration;
 }
