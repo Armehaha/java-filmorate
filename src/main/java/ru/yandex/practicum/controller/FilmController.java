@@ -40,10 +40,11 @@ public class FilmController {
 
     @PutMapping
     public Film putFilm(@Valid @RequestBody Film film) {
+
         if (integerFilmMap.containsKey(film.getId())) {
             integerFilmMap.put(film.getId(), film);
             log.info("изменение фильма");
-            return integerFilmMap.get(film.getId());
+            return film;
         } else
             throw new ValidationException();
 
