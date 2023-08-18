@@ -28,17 +28,17 @@ public class FilmController {
 
     @PostMapping
     public Film postFilm(@Valid @RequestBody Film film) {
-        if (film.getReleaseDate().isBefore(LocalDate.parse("1985-12-28"))) {
-            log.error("ошибка валидации даты");
-            throw new ValidationException();
-        }
         if (integerFilmMap.containsKey(film.getId())) {
             throw new ValidationException();
         }
-        film.setId(id++);
-        integerFilmMap.put(film.getId(), film);
-        log.info("добавление фильма");
+        if (!film.getReleaseDate().isBefore(LocalDate.parse("1985-12-28"))) {
+            film.setId(id++);
+            integerFilmMap.put(film.getId(), film);
+            log.info("добавление фильма");
+
+        }
         return film;
+
     }
 
     @PutMapping
