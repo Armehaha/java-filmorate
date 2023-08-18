@@ -41,7 +41,6 @@ public class UserTest {
     }
 
 
-
     @Test
     void postUserNullEmail() {
         final User user = new User(0, null, "Armen Osipyan", "sdfasdfas",
@@ -77,7 +76,7 @@ public class UserTest {
         assertEquals(getResponse.getBody().size(), 0, "Добавление Юзера с неподходящим Login");
         assertEquals(statusCode, 400);
     }
-    
+
 
     @Test
     void postUserFailBirthDayFuture() {
@@ -90,7 +89,7 @@ public class UserTest {
         assertEquals(getResponse.getBody().size(), 0, "Добавление Юзера с неподходящим Birthday");
         assertEquals(statusCode, 400);
     }
-    
+
 
     @Test
     void postUserBoudaryCasePast() throws IOException, InterruptedException {
@@ -104,6 +103,7 @@ public class UserTest {
         assertEquals(getResponse.getBody().size(), 1, "произошла ошибка");
         assertEquals(newUser, user, "Неверное добавление пользователя");
     }
+
     @Test
     void postUserNoEmail() throws IOException, InterruptedException {
         final User user = new User(0, "", "Armen Osipyan", "sdfasdfas",
@@ -115,6 +115,7 @@ public class UserTest {
         assertEquals(getResponse.getBody().size(), 0, "Добавление Юзера с неподходящим Email");
         assertEquals(statusCode, 400);
     }
+
     @Test
     void postUserBoudaryCasePresent() throws IOException, InterruptedException {
         final User user = new User(0, "ar@yandex.ru", "sdfasdfas", "sdfasdfas",
@@ -129,7 +130,7 @@ public class UserTest {
     }
 
     @Test
-    void postUserNullName()  {
+    void postUserNullName() {
         final User user = new User(0, "ar@yandex.ru", null, "sdfasdfas",
                 LocalDate.of(1969, 12, 1));
         final HttpEntity<User> request = new HttpEntity<>(user);
