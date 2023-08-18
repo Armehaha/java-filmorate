@@ -31,8 +31,8 @@ public class FilmController {
         if (integerFilmMap.containsKey(film.getId())) {
             throw new ValidationException();
         }
+        film.setId(id++);
         if (!film.getReleaseDate().isBefore(LocalDate.parse("1985-12-28"))) {
-            film.setId(id++);
             integerFilmMap.put(film.getId(), film);
             log.info("добавление фильма");
 
