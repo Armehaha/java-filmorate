@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.model.User;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -14,13 +15,13 @@ import java.util.Map;
 @RequestMapping("/users")
 @Slf4j
 public class UserController {
-    private final Map<Integer, User> integerUserMap = new LinkedHashMap<>();
+    private final Map<Integer, User> userMap = new LinkedHashMap<>();
     private int idUser = 1;
 
     @GetMapping
     public List<User> getUserList() {
         log.info("получение пользователей");
-        return new ArrayList<>(integerUserMap.values());
+        return new ArrayList<>(userMap.values());
     }
 
     @PostMapping
@@ -29,7 +30,7 @@ public class UserController {
             user.setName(user.getLogin());
         }
         user.setId(idUser++);
-        integerUserMap.put(user.getId(), user);
+        userMap.put(user.getId(), user);
         log.info("добавление пользователя");
 
         return user;
@@ -37,9 +38,14 @@ public class UserController {
 
     @PutMapping
     public User updateUser(@Valid @RequestBody User user) {
-        integerUserMap.put(user.getId(), user);
-        log.info("изменение пользователя");
-        return user;
+        if (userMap.containsKey(user.getId())) {
+            userMap.put(user.getId(), user);
+            log.info("изменение пользователя");
+
+            return user;
+        } else {
+            throw new ValidationException();
+        }
 
     }
 }
