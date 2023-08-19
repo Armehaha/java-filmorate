@@ -37,6 +37,22 @@ public class FilmTest {
     }
 
     @Test
+    public void putFilmUnknown() {
+        final Film film = new Film(0, "adsfasdfasdfe", "adsfafdasdf",
+                LocalDate.of(2017, 12, 5), 100);
+        final HttpEntity<Film> request = new HttpEntity<>(film);
+        final ResponseEntity<Film> response = restTemplate.postForEntity(path, request, Film.class);
+        final Film putFilm = new Film(23523623, "adfewqrqwer", "авпвапывапвыапe",
+                LocalDate.of(2000, 12, 5), 150);
+        final HttpEntity<Film> newRequest = new HttpEntity<>(putFilm);
+        final ResponseEntity<Film> newResponse = restTemplate.exchange(path, HttpMethod.PUT, newRequest, Film.class);
+        final ResponseEntity<ArrayList> getResponse = restTemplate.getForEntity(path, ArrayList.class);
+
+        assertEquals(getResponse.getBody().size(), 1, "Произошла ошибка");
+        assertEquals(newResponse.getStatusCodeValue(), 500, "Произошла ошибка");
+    }
+
+    @Test
     public void postFilmNull() {
         final Film film = new Film(0, null, "adsfafdasdf",
                 LocalDate.of(2017, 12, 5), 100);

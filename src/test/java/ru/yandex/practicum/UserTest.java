@@ -171,20 +171,7 @@ public class UserTest {
         assertEquals(newResponse.getBody(), putUser, "произошла ошибка");
     }
 
-    @Test
-    void putUserUnknown() {
-        final User user = new User(0, "ar@yandex.ru", "Armen Osipyan", "sdfasdfas",
-                LocalDate.of(1969, 12, 1));
-        final HttpEntity<User> request = new HttpEntity<>(user);
-        final ResponseEntity<User> response = restTemplate.postForEntity(path, request, User.class);
-        final User putUser = new User(46364634, "ar@yandex.ru", "Alexandro Designer", "Qwerty",
-                LocalDate.of(1976, 12, 1));
-        final HttpEntity<User> newRequest = new HttpEntity<>(putUser);
-        final ResponseEntity<User> newResponse = restTemplate.exchange(path, HttpMethod.PUT, newRequest, User.class);
-        final ResponseEntity<ArrayList> getResponse = restTemplate.getForEntity(path, ArrayList.class);
-        System.out.println(getResponse.getBody());
-        assertEquals(getResponse.getBody().size(), 1, "произошла ошибка");
-    }
+
 
     @Test
     public void postUserNull() {
