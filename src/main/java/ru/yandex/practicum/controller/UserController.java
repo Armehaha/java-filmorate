@@ -6,7 +6,6 @@ import ru.yandex.practicum.model.User;
 
 import javax.validation.Valid;
 import javax.validation.ValidationException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
