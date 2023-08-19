@@ -16,26 +16,22 @@ import java.util.Map;
 @RequestMapping("/films")
 @Slf4j
 public class FilmController {
-    private final Map<Integer, Film> integerFilmMap = new LinkedHashMap<>();
+    private final Map<Integer, Film> filmMap = new LinkedHashMap<>();
     private int id = 1;
 
     @GetMapping
     public List<Film> getAllFilms() {
         log.info("получение всех фильмов");
-        return new ArrayList<>(integerFilmMap.values());
+        return new ArrayList<>(filmMap.values());
 
     }
 
     @PostMapping
     public Film postFilm(@Valid @RequestBody Film film) {
-        if (integerFilmMap.containsKey(film.getId())) {
-            throw new ValidationException();
-        }
-        film.setId(id++);
-        if (!film.getReleaseDate().isBefore(LocalDate.parse("1895-12-28"))) {
-            integerFilmMap.put(film.getId(), film);
+        if (!filmMap.containsKey(film.getId()) || !film.getReleaseDate().isBefore(LocalDate.parse("1895-12-28"))) {
+            film.setId(id++);
+            filmMap.put(film.getId(), film);
             log.info("добавление фильма");
-
         } else {
             throw new ValidationException();
         }
@@ -45,13 +41,9 @@ public class FilmController {
 
     @PutMapping
     public Film putFilm(@Valid @RequestBody Film film) {
-
-        if (integerFilmMap.containsKey(film.getId())) {
-            integerFilmMap.put(film.getId(), film);
-            log.info("изменение фильма");
-            return film;
-        } else
-            throw new ValidationException();
+        filmMap.put(film.getId(), film);
+        log.info("изменение фильма");
+        return film;
 
     }
 }

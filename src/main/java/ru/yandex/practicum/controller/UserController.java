@@ -15,13 +15,13 @@ import java.util.Map;
 @RequestMapping("/users")
 @Slf4j
 public class UserController {
-    private final Map<Integer, User> integerUserMap = new LinkedHashMap<>();
+    private final Map<Integer, User> userMap = new LinkedHashMap<>();
     private int idUser = 1;
 
     @GetMapping
     public List<User> getUserList() {
         log.info("получение пользователей");
-        return new ArrayList<>(integerUserMap.values());
+        return List.of((User) userMap.values());
     }
 
     @PostMapping
@@ -30,7 +30,7 @@ public class UserController {
             user.setName(user.getLogin());
         }
         user.setId(idUser++);
-        integerUserMap.put(user.getId(), user);
+        userMap.put(user.getId(), user);
         log.info("добавление пользователя");
 
         return user;
@@ -38,8 +38,8 @@ public class UserController {
 
     @PutMapping
     public User updateUser(@Valid @RequestBody User user) {
-        if (integerUserMap.containsKey(user.getId())) {
-            integerUserMap.put(user.getId(), user);
+        if (userMap.containsKey(user.getId())) {
+            userMap.put(user.getId(), user);
             log.info("изменение пользователя");
 
             return user;
