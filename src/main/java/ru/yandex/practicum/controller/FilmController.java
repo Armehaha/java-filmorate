@@ -19,7 +19,7 @@ public class FilmController {
     @GetMapping
     public List<Film> getAllFilms() {
         log.info("получение всех фильмов");
-        return new ArrayList<>(filmMap.values());
+       return new ArrayList<>(filmMap.values());
 
     }
 
@@ -38,9 +38,11 @@ public class FilmController {
 
     @PutMapping
     public Film putFilm(@Valid @RequestBody Film film) {
-        filmMap.put(film.getId(), film);
-        log.info("изменение фильма");
-        return film;
-
+        if (filmMap.containsKey(film.getId())) {
+            filmMap.put(film.getId(), film);
+            log.info("изменение фильма");
+            return film;
+        } else
+            throw new ValidationException();
     }
 }

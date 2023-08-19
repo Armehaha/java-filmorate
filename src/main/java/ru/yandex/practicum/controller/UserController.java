@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.model.User;
 
 import javax.validation.Valid;
-import javax.validation.ValidationException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -38,14 +37,9 @@ public class UserController {
 
     @PutMapping
     public User updateUser(@Valid @RequestBody User user) {
-        if (integerUserMap.containsKey(user.getId())) {
-            integerUserMap.put(user.getId(), user);
-            log.info("изменение пользователя");
-
-            return user;
-        } else {
-            throw new ValidationException();
-        }
+        integerUserMap.put(user.getId(), user);
+        log.info("изменение пользователя");
+        return user;
 
     }
 }
