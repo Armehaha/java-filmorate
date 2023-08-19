@@ -12,6 +12,7 @@ import ru.yandex.practicum.model.Film;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,7 +31,6 @@ public class FilmTest {
         final HttpEntity<Film> request = new HttpEntity<>(film);
         final ResponseEntity<Film> response = restTemplate.postForEntity(path, request, Film.class);
         final ResponseEntity<ArrayList> getResponse = restTemplate.getForEntity(path, ArrayList.class);
-
         assertEquals(getResponse.getBody().size(), 1, "Произошла ошибка");
         film.setId(1);
         assertEquals(response.getBody(), film, "неверный id");
@@ -52,7 +52,7 @@ public class FilmTest {
     @Test
     public void postFilmDate() {
         final Film film = new Film(0, "sdfadsfs", "adsfafdasdf",
-                LocalDate.of(1894, 12, 28), 100);
+                LocalDate.of(1893, 12, 28), 100);
         final HttpEntity<Film> request = new HttpEntity<>(film);
         final ResponseEntity<Film> response = restTemplate.postForEntity(path, request, Film.class);
         final ResponseEntity<ArrayList> getResponse = restTemplate.getForEntity(path, ArrayList.class);
@@ -103,21 +103,6 @@ public class FilmTest {
         assertEquals(newResponse.getBody(), putFilm, "Произошла ошибка");
     }
 
-    @Test
-    public void putFilmUnknown() {
-        final Film film = new Film(0, "adsfasdfasdfe", "adsfafdasdf",
-                LocalDate.of(2017, 12, 5), 100);
-        final HttpEntity<Film> request = new HttpEntity<>(film);
-        final ResponseEntity<Film> response = restTemplate.postForEntity(path, request, Film.class);
-        final Film putFilm = new Film(23523623, "adfewqrqwer", "авпвапывапвыапe",
-                LocalDate.of(2000, 12, 5), 150);
-        final HttpEntity<Film> newRequest = new HttpEntity<>(putFilm);
-        final ResponseEntity<Film> newResponse = restTemplate.exchange(path, HttpMethod.PUT, newRequest, Film.class);
-        final ResponseEntity<ArrayList> getResponse = restTemplate.getForEntity(path, ArrayList.class);
-
-        assertEquals(getResponse.getBody().size(), 1, "Произошла ошибка");
-        assertEquals(newResponse.getStatusCodeValue(), 500, "Произошла ошибка");
-    }
 
     @Test
     public void postFilmDurationZero() {

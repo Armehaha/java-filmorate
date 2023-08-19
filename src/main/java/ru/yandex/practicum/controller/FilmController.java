@@ -7,10 +7,7 @@ import ru.yandex.practicum.model.Film;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/films")
@@ -28,7 +25,7 @@ public class FilmController {
 
     @PostMapping
     public Film postFilm(@Valid @RequestBody Film film) {
-        if (!filmMap.containsKey(film.getId()) || !film.getReleaseDate().isBefore(LocalDate.parse("1895-12-28"))) {
+        if (!filmMap.containsKey(film.getId()) && !film.getReleaseDate().isBefore(LocalDate.parse("1895-12-28"))) {
             film.setId(id++);
             filmMap.put(film.getId(), film);
             log.info("добавление фильма");

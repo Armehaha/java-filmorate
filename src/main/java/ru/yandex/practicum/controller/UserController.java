@@ -6,6 +6,7 @@ import ru.yandex.practicum.model.User;
 
 import javax.validation.Valid;
 import javax.validation.ValidationException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,13 +15,13 @@ import java.util.Map;
 @RequestMapping("/users")
 @Slf4j
 public class UserController {
-    private final Map<Integer, User> userMap = new LinkedHashMap<>();
+    private final Map<Integer, User> integerUserMap = new LinkedHashMap<>();
     private int idUser = 1;
 
     @GetMapping
     public List<User> getUserList() {
         log.info("получение пользователей");
-        return List.of((User) userMap.values());
+        return new ArrayList<>(integerUserMap.values());
     }
 
     @PostMapping
@@ -29,7 +30,7 @@ public class UserController {
             user.setName(user.getLogin());
         }
         user.setId(idUser++);
-        userMap.put(user.getId(), user);
+        integerUserMap.put(user.getId(), user);
         log.info("добавление пользователя");
 
         return user;
@@ -37,8 +38,8 @@ public class UserController {
 
     @PutMapping
     public User updateUser(@Valid @RequestBody User user) {
-        if (userMap.containsKey(user.getId())) {
-            userMap.put(user.getId(), user);
+        if (integerUserMap.containsKey(user.getId())) {
+            integerUserMap.put(user.getId(), user);
             log.info("изменение пользователя");
 
             return user;
