@@ -6,16 +6,13 @@ import ru.yandex.practicum.model.User;
 
 import javax.validation.Valid;
 import javax.validation.ValidationException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/users")
 @Slf4j
 public class UserController {
-    private final Map<Integer, User> userMap = new LinkedHashMap<>();
+    private final Map<Integer, User> userMap = new HashMap<>();
     private int idUser = 1;
 
     @GetMapping

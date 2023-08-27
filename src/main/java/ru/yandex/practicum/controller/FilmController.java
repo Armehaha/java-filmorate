@@ -13,7 +13,7 @@ import java.util.*;
 @RequestMapping("/films")
 @Slf4j
 public class FilmController {
-    private final Map<Integer, Film> filmMap = new LinkedHashMap<>();
+    private final Map<Integer, Film> filmMap = new HashMap<>();
     private int id = 1;
 
     @GetMapping
@@ -25,7 +25,7 @@ public class FilmController {
 
     @PostMapping
     public Film postFilm(@Valid @RequestBody Film film) {
-        if (!filmMap.containsKey(film.getId()) && !film.getReleaseDate().isBefore(LocalDate.parse("1895-12-28"))) {
+        if (film.getReleaseDate().isAfter(LocalDate.parse("1895-12-28")))  {
             film.setId(id++);
             filmMap.put(film.getId(), film);
             log.info("добавление фильма");
