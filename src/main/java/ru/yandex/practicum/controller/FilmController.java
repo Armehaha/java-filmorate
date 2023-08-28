@@ -62,6 +62,7 @@ public class FilmController {
     public List<Film> getPopular(@RequestParam(defaultValue = "10") int count) {
         return filmService.getPopularFilm(count);
     }
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handle(final NoSuchElementException e) {
