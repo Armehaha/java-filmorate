@@ -59,10 +59,12 @@ public class UserController {
     public List<User> getMutualFriends(@PathVariable int id, @PathVariable int idUser) {
         return userService.getMutualFriends(id, idUser);
     }
+
     @GetMapping("/{id}/friends")
     public List<User> getFriends(@PathVariable int id) {
         return userService.getFriends(id);
     }
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handle(final NoSuchElementException e) {
