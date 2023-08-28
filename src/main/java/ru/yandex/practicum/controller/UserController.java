@@ -69,7 +69,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handle(final NoSuchElementException e) {
         return new ErrorResponse(
-                "Ошибка с параметром count.", e.getMessage()
+                "Такого элемента нет", e.getMessage()
         );
     }
 }

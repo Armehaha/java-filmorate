@@ -73,10 +73,10 @@ public class FilmService {
         filmStorage.updateFilmFromId(filmId, film);
     }
 
-    public List<Film> getPopularFilm() {
+    public List<Film> getPopularFilm(int count) {
         return filmStorage.getAllFilms().stream()
                 .sorted(Comparator.comparing(Film::getLikes, Comparator.nullsLast(Comparator.reverseOrder())))
-                .limit(10)
+                .limit(count)
                 .collect(Collectors.toList());
     }
 }

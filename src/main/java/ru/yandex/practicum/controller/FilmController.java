@@ -2,7 +2,9 @@ package ru.yandex.practicum.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.model.ErrorResponse;
 import ru.yandex.practicum.model.Film;
 import ru.yandex.practicum.service.FilmService;
 
@@ -57,7 +59,14 @@ public class FilmController {
     }
 
     @GetMapping("/popular")
-    public List<Film> getPopular() {
-        return filmService.getPopularFilm();
+    public List<Film> getPopular(@RequestParam(defaultValue = "10") int count) {
+        return filmService.getPopularFilm(count);
+    }
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handle(final NoSuchElementException e) {
+        return new ErrorResponse(
+                "Такого элемента нет", e.getMessage()
+        );
     }
 }
