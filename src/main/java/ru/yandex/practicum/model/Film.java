@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -22,6 +23,6 @@ public class Film {
     @Positive
     @NonNull
     private int duration;
-    private final List<Integer> userLike;
+    private final List<Integer> userLike = new ArrayList<>();
     private int likes;
 }

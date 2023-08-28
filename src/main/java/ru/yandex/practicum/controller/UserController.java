@@ -2,7 +2,9 @@ package ru.yandex.practicum.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.model.ErrorResponse;
 import ru.yandex.practicum.model.User;
 import ru.yandex.practicum.service.UserService;
 
@@ -57,4 +59,16 @@ public class UserController {
     public List<User> getMutualFriends(@PathVariable int id, @PathVariable int idUser) {
         return userService.getMutualFriends(id, idUser);
     }
+    @GetMapping("/{id}/friends")
+    public List<User> getFriends(@PathVariable int id) {
+        return userService.getFriends(id);
+    }
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handle(final NoSuchElementException e) {
+        return new ErrorResponse(
+                "Ошибка с параметром count.", e.getMessage()
+        );
+    }
 }
+

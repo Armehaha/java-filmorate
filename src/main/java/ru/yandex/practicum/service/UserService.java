@@ -80,10 +80,10 @@ public class UserService {
     }
 
     public List<User> getMutualFriends(int userId, int otherId) {
-        if (userStorage.getOneUser(userId) == null) {
+        if (userStorage.getOneUser(userId) == null || userStorage.getOneUser(userId).getFriends() == null) {
             throw new NoSuchElementException();
         }
-        if (userStorage.getOneUser(otherId) == null) {
+        if (userStorage.getOneUser(otherId) == null || userStorage.getOneUser(otherId).getFriends() == null) {
             throw new NoSuchElementException();
         }
         final List<User> mutualFriends = new ArrayList<>();
@@ -96,5 +96,18 @@ public class UserService {
             }
         }
         return mutualFriends;
+    }
+
+    public List<User> getFriends(int userId) {
+        if (userStorage.getOneUser(userId) == null) {
+            throw new NoSuchElementException();
+        }
+        final List<User> friends = new ArrayList<>();
+        final User user = userStorage.getOneUser(userId);
+
+        for (Integer friend : user.getFriends()) {
+            friends.add(userStorage.getOneUser(friend));
+        }
+        return friends;
     }
 }
