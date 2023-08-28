@@ -26,8 +26,9 @@ public class FilmTest {
 
     @Test
     public void postFilm() {
+
         final Film film = new Film(0, "sdfsf", "sfsadfasdf",
-                LocalDate.of(2017, 12, 5), 100);
+                LocalDate.of(2017, 12, 5), 100, new ArrayList<>(), 0);
         final HttpEntity<Film> request = new HttpEntity<>(film);
         final ResponseEntity<Film> response = restTemplate.postForEntity(path, request, Film.class);
         final ResponseEntity<ArrayList> getResponse = restTemplate.getForEntity(path, ArrayList.class);
@@ -39,11 +40,11 @@ public class FilmTest {
     @Test
     public void putFilmUnknown() {
         final Film film = new Film(0, "adsfasdfasdfe", "adsfafdasdf",
-                LocalDate.of(2017, 12, 5), 100);
+                LocalDate.of(2017, 12, 5), 100, new ArrayList<>(), 0);
         final HttpEntity<Film> request = new HttpEntity<>(film);
         final ResponseEntity<Film> response = restTemplate.postForEntity(path, request, Film.class);
         final Film putFilm = new Film(23523623, "adfewqrqwer", "авпвапывапвыапe",
-                LocalDate.of(2000, 12, 5), 150);
+                LocalDate.of(2000, 12, 5), 150, new ArrayList<>(), 0);
         final HttpEntity<Film> newRequest = new HttpEntity<>(putFilm);
         final ResponseEntity<Film> newResponse = restTemplate.exchange(path, HttpMethod.PUT, newRequest, Film.class);
         final ResponseEntity<ArrayList> getResponse = restTemplate.getForEntity(path, ArrayList.class);
@@ -55,7 +56,7 @@ public class FilmTest {
     @Test
     public void postFilmNull() {
         final Film film = new Film(0, null, "adsfafdasdf",
-                LocalDate.of(2017, 12, 5), 100);
+                LocalDate.of(2017, 12, 5), 100, new ArrayList<>(), 0);
         final HttpEntity<Film> request = new HttpEntity<>(film);
         final ResponseEntity<Film> response = restTemplate.postForEntity(path, request, Film.class);
         final ResponseEntity<ArrayList> getResponse = restTemplate.getForEntity(path, ArrayList.class);
@@ -68,7 +69,7 @@ public class FilmTest {
     @Test
     public void postFilmDate() {
         final Film film = new Film(0, "sdfadsfs", "adsfafdasdf",
-                LocalDate.of(1893, 12, 28), 100);
+                LocalDate.of(1893, 12, 28), 100, new ArrayList<>(), 0);
         final HttpEntity<Film> request = new HttpEntity<>(film);
         final ResponseEntity<Film> response = restTemplate.postForEntity(path, request, Film.class);
         final ResponseEntity<ArrayList> getResponse = restTemplate.getForEntity(path, ArrayList.class);
@@ -80,7 +81,7 @@ public class FilmTest {
     @Test
     public void postFilmDateRelease() {
         final Film film = new Film(0, "sdfadsfs", "adsfafdasdf",
-                LocalDate.of(3015, 12, 5), 100);
+                LocalDate.of(3015, 12, 5), 100, new ArrayList<>(), 0);
         final HttpEntity<Film> request = new HttpEntity<>(film);
         final ResponseEntity<Film> response = restTemplate.postForEntity(path, request, Film.class);
         final ResponseEntity<ArrayList> getResponse = restTemplate.getForEntity(path, ArrayList.class);
@@ -93,7 +94,7 @@ public class FilmTest {
     @Test
     public void postFilmFailDurationNegative() {
         final Film film = new Film(0, "sdfadsfs", "adsfafdasdf",
-                LocalDate.of(1995, 12, 28), -100);
+                LocalDate.of(1995, 12, 28), -100, new ArrayList<>(), 0);
         final HttpEntity<Film> request = new HttpEntity<>(film);
         final ResponseEntity<Film> response = restTemplate.postForEntity(path, request, Film.class);
         final ResponseEntity<ArrayList> getResponse = restTemplate.getForEntity(path, ArrayList.class);
@@ -106,11 +107,11 @@ public class FilmTest {
     @Test
     public void putFilmNormal() {
         final Film film = new Film(0, "sdfadsfs", "adsfafdasdf",
-                LocalDate.of(2017, 12, 5), 100);
+                LocalDate.of(2017, 12, 5), 100, new ArrayList<>(), 0);
         final HttpEntity<Film> request = new HttpEntity<>(film);
         final ResponseEntity<Film> response = restTemplate.postForEntity(path, request, Film.class);
         final Film putFilm = new Film(1, "7 element", "Esche kruche",
-                LocalDate.of(2000, 12, 5), 150);
+                LocalDate.of(2000, 12, 5), 150, new ArrayList<>(), 0);
         final HttpEntity<Film> newRequest = new HttpEntity<>(putFilm);
         final ResponseEntity<Film> newResponse = restTemplate.exchange(path, HttpMethod.PUT, newRequest, Film.class);
         final ResponseEntity<ArrayList> getResponse = restTemplate.getForEntity(path, ArrayList.class);
@@ -123,7 +124,7 @@ public class FilmTest {
     @Test
     public void postFilmDurationZero() {
         final Film film = new Film(0, "sdfadsfs", "adsfafdasdf",
-                LocalDate.of(1995, 12, 28), 0);
+                LocalDate.of(1995, 12, 28), 0, new ArrayList<>(), 0);
         final HttpEntity<Film> request = new HttpEntity<>(film);
         final ResponseEntity<Film> response = restTemplate.postForEntity(path, request, Film.class);
         final ResponseEntity<ArrayList> getResponse = restTemplate.getForEntity(path, ArrayList.class);
