@@ -9,7 +9,6 @@ import ru.yandex.practicum.storage.UserStorage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,16 +22,16 @@ public class UserService {
         if (userStorage.getUserById(userId) != null) {
             return userStorage.getUserById(userId);
         } else {
-            throw new NoSuchElementException();
+            throw new NotFoundException();
         }
     }
 
     public void putFriend(int userId, int friendId) {
         if (userStorage.getUserById(userId) == null) {
-            throw new NoSuchElementException();
+            throw new NotFoundException();
         }
         if (userStorage.getUserById(friendId) == null) {
-            throw new NoSuchElementException();
+            throw new NotFoundException();
         }
         User user = userStorage.getUserById(userId);
         User friend = userStorage.getUserById(friendId);
@@ -42,18 +41,17 @@ public class UserService {
         }
         user.getFriends().add(friendId);
         friend.getFriends().add(userId);
-
-
+        
         userStorage.updateUserFromId(userId, user);
         userStorage.updateUserFromId(friendId, friend);
     }
 
     public void deleteFriend(int userId, int friendId) {
         if (userStorage.getUserById(userId) == null) {
-            throw new NoSuchElementException();
+            throw new NotFoundException();
         }
         if (userStorage.getUserById(friendId) == null) {
-            throw new NoSuchElementException();
+            throw new NotFoundException();
         }
         User user = userStorage.getUserById(userId);
         User friend = userStorage.getUserById(friendId);
@@ -78,10 +76,10 @@ public class UserService {
 
     public List<User> getMutualFriends(int userId, int otherId) {
         if (userStorage.getUserById(userId) == null || userStorage.getUserById(userId).getFriends() == null) {
-            throw new NoSuchElementException();
+            throw new NotFoundException();
         }
         if (userStorage.getUserById(otherId) == null || userStorage.getUserById(otherId).getFriends() == null) {
-            throw new NoSuchElementException();
+            throw new NotFoundException();
         }
         final List<User> mutualFriends = new ArrayList<>();
         final User user = userStorage.getUserById(userId);

@@ -27,7 +27,6 @@ public class InMemoryFilmStorage implements FilmStorage {
     public Film updateFilm(Film film) {
         if (filmMap.containsKey(film.getId())) {
             filmMap.put(film.getId(), film);
-
             return film;
         } else
             throw new NotFoundException();

@@ -29,7 +29,6 @@ public class FilmController {
 
     @PostMapping
     public Film postFilm(@Valid @RequestBody Film film) {
-        System.out.println("dsfsdfsdfdsfsdf");
         if (film.getReleaseDate().isAfter(LocalDate.parse("1895-12-28"))) {
             log.info("добавление фильма");
             return filmService.getFilmStorage().addFilm(film);
