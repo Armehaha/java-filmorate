@@ -1,27 +1,24 @@
 package ru.yandex.practicum.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.model.ErrorResponse;
 import ru.yandex.practicum.model.Film;
 import ru.yandex.practicum.service.FilmService;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
+import java.time.LocalDate;
 import java.util.*;
 
 @RestController
 @RequestMapping("/films")
 @Slf4j
+@RequiredArgsConstructor
 public class FilmController {
 
     private final FilmService filmService;
 
-    @Autowired
-    public FilmController(FilmService filmService) {
-        this.filmService = filmService;
-    }
 
     @GetMapping
     public List<Film> getAllFilms() {
@@ -32,9 +29,13 @@ public class FilmController {
 
     @PostMapping
     public Film postFilm(@Valid @RequestBody Film film) {
-        log.info("добавление фильма");
-        return filmService.getFilmStorage().addFilm(film);
-
+        System.out.println("dsfsdfsdfdsfsdf");
+        if (film.getReleaseDate().isAfter(LocalDate.parse("1895-12-28"))) {
+            log.info("добавление фильма");
+            return filmService.getFilmStorage().addFilm(film);
+        } else {
+            throw new ValidationException();
+        }
     }
 
     @PutMapping
@@ -45,7 +46,7 @@ public class FilmController {
 
     @GetMapping("/{id}")
     public Film getUserDyId(@PathVariable int id) {
-        return filmService.getOneFilm(id);
+        return filmService.getFilmById(id);
     }
 
     @PutMapping("/{id}/like/{userId}")
@@ -63,11 +64,4 @@ public class FilmController {
         return filmService.getPopularFilm(count);
     }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handle(final NoSuchElementException e) {
-        return new ErrorResponse(
-                "Такого элемента нет", e.getMessage()
-        );
-    }
 }

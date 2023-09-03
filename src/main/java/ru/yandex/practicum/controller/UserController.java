@@ -1,10 +1,8 @@
 package ru.yandex.practicum.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.model.ErrorResponse;
 import ru.yandex.practicum.model.User;
 import ru.yandex.practicum.service.UserService;
 
@@ -14,13 +12,10 @@ import java.util.*;
 @RestController
 @RequestMapping("/users")
 @Slf4j
+@RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping
     public List<User> getUserList() {
@@ -65,12 +60,6 @@ public class UserController {
         return userService.getFriends(id);
     }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handle(final NoSuchElementException e) {
-        return new ErrorResponse(
-                "Такого элемента нет", e.getMessage()
-        );
-    }
+
 }
 

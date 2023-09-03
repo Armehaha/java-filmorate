@@ -1,13 +1,10 @@
 package ru.yandex.practicum.storage;
 
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.exception.NotFoundException;
 import ru.yandex.practicum.model.User;
 
-import javax.validation.ValidationException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class InMemoryUserStorage implements UserStorage {
@@ -35,17 +32,21 @@ public class InMemoryUserStorage implements UserStorage {
             userMap.put(user.getId(), user);
             return user;
         } else {
-            throw new ValidationException();
+            throw new NotFoundException();
         }
     }
 
     @Override
-    public User getOneUser(int userId) {
+    public User getUserById(int userId) {
         return userMap.get(userId);
     }
 
     @Override
     public void updateUserFromId(int userId, User user) {
-        userMap.put(userId, user);
+        if (userMap.containsKey(user.getId())) {
+            userMap.put(userId, user);
+        } else {
+            throw new NotFoundException();
+        }
     }
 }

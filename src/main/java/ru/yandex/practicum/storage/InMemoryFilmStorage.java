@@ -1,14 +1,10 @@
 package ru.yandex.practicum.storage;
 
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.exception.NotFoundException;
 import ru.yandex.practicum.model.Film;
 
-import javax.validation.ValidationException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class InMemoryFilmStorage implements FilmStorage {
@@ -22,13 +18,8 @@ public class InMemoryFilmStorage implements FilmStorage {
 
     @Override
     public Film addFilm(Film film) {
-        if (film.getReleaseDate().isAfter(LocalDate.parse("1895-12-28"))) {
-            film.setId(id++);
-            filmMap.put(film.getId(), film);
-
-        } else {
-            throw new ValidationException();
-        }
+        film.setId(id++);
+        filmMap.put(film.getId(), film);
         return film;
     }
 
@@ -39,17 +30,19 @@ public class InMemoryFilmStorage implements FilmStorage {
 
             return film;
         } else
-            throw new ValidationException();
-
+            throw new NotFoundException();
     }
 
     @Override
-    public Film getOneFilm(int filmId) {
+    public Film getById(int filmId) {
         return filmMap.get(filmId);
     }
 
     @Override
     public void updateFilmFromId(int filmId, Film film) {
-        filmMap.put(filmId, film);
+        if (filmMap.containsKey(film.getId())) {
+            filmMap.put(filmId, film);
+        } else
+            throw new NotFoundException();
     }
 }

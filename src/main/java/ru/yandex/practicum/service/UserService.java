@@ -1,8 +1,9 @@
 package ru.yandex.practicum.service;
 
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.exception.NotFoundException;
 import ru.yandex.practicum.model.User;
 import ru.yandex.practicum.storage.UserStorage;
 
@@ -13,32 +14,28 @@ import java.util.stream.Collectors;
 
 @Service
 @Getter
+@RequiredArgsConstructor
 public class UserService {
     private final UserStorage userStorage;
 
-    @Autowired
-    public UserService(UserStorage userStorage) {
-        this.userStorage = userStorage;
-    }
-
 
     public User getUserById(int userId) {
-        if (userStorage.getOneUser(userId) != null) {
-            return userStorage.getOneUser(userId);
+        if (userStorage.getUserById(userId) != null) {
+            return userStorage.getUserById(userId);
         } else {
             throw new NoSuchElementException();
         }
     }
 
     public void putFriend(int userId, int friendId) {
-        if (userStorage.getOneUser(userId) == null) {
+        if (userStorage.getUserById(userId) == null) {
             throw new NoSuchElementException();
         }
-        if (userStorage.getOneUser(friendId) == null) {
+        if (userStorage.getUserById(friendId) == null) {
             throw new NoSuchElementException();
         }
-        User user = userStorage.getOneUser(userId);
-        User friend = userStorage.getOneUser(friendId);
+        User user = userStorage.getUserById(userId);
+        User friend = userStorage.getUserById(friendId);
 
         if (user.getFriends().contains(friendId)) {
             throw new IllegalArgumentException();
@@ -52,14 +49,14 @@ public class UserService {
     }
 
     public void deleteFriend(int userId, int friendId) {
-        if (userStorage.getOneUser(userId) == null) {
+        if (userStorage.getUserById(userId) == null) {
             throw new NoSuchElementException();
         }
-        if (userStorage.getOneUser(friendId) == null) {
+        if (userStorage.getUserById(friendId) == null) {
             throw new NoSuchElementException();
         }
-        User user = userStorage.getOneUser(userId);
-        User friend = userStorage.getOneUser(friendId);
+        User user = userStorage.getUserById(userId);
+        User friend = userStorage.getUserById(friendId);
 
         if (!user.getFriends().contains(friendId)) {
             throw new IllegalArgumentException();
@@ -80,33 +77,33 @@ public class UserService {
     }
 
     public List<User> getMutualFriends(int userId, int otherId) {
-        if (userStorage.getOneUser(userId) == null || userStorage.getOneUser(userId).getFriends() == null) {
+        if (userStorage.getUserById(userId) == null || userStorage.getUserById(userId).getFriends() == null) {
             throw new NoSuchElementException();
         }
-        if (userStorage.getOneUser(otherId) == null || userStorage.getOneUser(otherId).getFriends() == null) {
+        if (userStorage.getUserById(otherId) == null || userStorage.getUserById(otherId).getFriends() == null) {
             throw new NoSuchElementException();
         }
         final List<User> mutualFriends = new ArrayList<>();
-        final User user = userStorage.getOneUser(userId);
-        final User other = userStorage.getOneUser(otherId);
+        final User user = userStorage.getUserById(userId);
+        final User other = userStorage.getUserById(otherId);
 
         for (Integer friend : user.getFriends()) {
             if (other.getFriends().contains(friend)) {
-                mutualFriends.add(userStorage.getOneUser(friend));
+                mutualFriends.add(userStorage.getUserById(friend));
             }
         }
         return mutualFriends;
     }
 
     public List<User> getFriends(int userId) {
-        if (userStorage.getOneUser(userId) == null) {
-            throw new NoSuchElementException();
+        if (userStorage.getUserById(userId) == null) {
+            throw new NotFoundException();
         }
         final List<User> friends = new ArrayList<>();
-        final User user = userStorage.getOneUser(userId);
+        final User user = userStorage.getUserById(userId);
 
         for (Integer friend : user.getFriends()) {
-            friends.add(userStorage.getOneUser(friend));
+            friends.add(userStorage.getUserById(friend));
         }
         return friends;
     }

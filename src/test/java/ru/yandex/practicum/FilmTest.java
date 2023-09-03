@@ -50,7 +50,7 @@ public class FilmTest {
         final ResponseEntity<ArrayList> getResponse = restTemplate.getForEntity(path, ArrayList.class);
 
         assertEquals(getResponse.getBody().size(), 1, "Произошла ошибка");
-        assertEquals(newResponse.getStatusCodeValue(), 500, "Произошла ошибка");
+        assertEquals(newResponse.getStatusCodeValue(), 404, "Произошла ошибка");
     }
 
     @Test
