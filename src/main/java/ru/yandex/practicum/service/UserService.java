@@ -41,7 +41,6 @@ public class UserService {
         }
         user.getFriends().add(friendId);
         friend.getFriends().add(userId);
-        
         userStorage.updateUserFromId(userId, user);
         userStorage.updateUserFromId(friendId, friend);
     }
@@ -69,7 +68,6 @@ public class UserService {
         friend.getFriends().clear();
         userList.forEach(integer -> user.getFriends().add(integer));
         friendList.forEach(integer -> friend.getFriends().add(integer));
-
         userStorage.updateUserFromId(userId, user);
         userStorage.updateUserFromId(friendId, friend);
     }
