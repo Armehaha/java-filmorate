@@ -1,6 +1,5 @@
 package ru.yandex.practicum.service;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.exception.NotFoundException;
@@ -13,11 +12,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Getter
 @RequiredArgsConstructor
 public class FilmService {
     private final FilmStorage filmStorage;
     private final UserStorage userStorage;
+
+    public List<Film> getAllFilms() {
+        return filmStorage.getAllFilms();
+    }
+
+    public Film addFilm(Film film) {
+        return filmStorage.addFilm(film);
+    }
+
+    public Film updateFilm(Film film) {
+        return filmStorage.updateFilm(film);
+    }
 
     public Film getFilmById(int filmId) {
         Film film = filmStorage.getById(filmId);
@@ -26,6 +36,7 @@ public class FilmService {
         }
         return film;
     }
+
 
     public void putLike(int filmId, int userId) {
         if (userStorage.getUserById(userId) == null) {

@@ -1,6 +1,5 @@
 package ru.yandex.practicum.service;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.exception.NotFoundException;
@@ -12,11 +11,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Getter
 @RequiredArgsConstructor
 public class UserService {
     private final UserStorage userStorage;
 
+    public List<User> getAllUsers() {
+        return userStorage.getAllUsers();
+    }
+
+    public User addUser(User user) {
+        if (user.getName() == null || user.getName().isBlank()) {
+            user.setName(user.getLogin());
+        }
+        return userStorage.addUser(user);
+    }
+
+    public User updateUser(User user) {
+        return userStorage.updateUser(user);
+    }
 
     public User getUserById(int userId) {
         if (userStorage.getUserById(userId) != null) {

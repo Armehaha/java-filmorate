@@ -23,7 +23,7 @@ public class FilmController {
     @GetMapping
     public List<Film> getAllFilms() {
         log.info("получение всех фильмов");
-        return filmService.getFilmStorage().getAllFilms();
+        return filmService.getAllFilms();
 
     }
 
@@ -31,7 +31,7 @@ public class FilmController {
     public Film postFilm(@Valid @RequestBody Film film) {
         if (film.getReleaseDate().isAfter(LocalDate.parse("1895-12-28"))) {
             log.info("добавление фильма");
-            return filmService.getFilmStorage().addFilm(film);
+            return filmService.addFilm(film);
         } else {
             throw new ValidationException();
         }
@@ -40,7 +40,7 @@ public class FilmController {
     @PutMapping
     public Film putFilm(@Valid @RequestBody Film film) {
         log.info("изменение фильма");
-        return filmService.getFilmStorage().updateFilm(film);
+        return filmService.updateFilm(film);
     }
 
     @GetMapping("/{id}")

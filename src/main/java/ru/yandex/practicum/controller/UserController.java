@@ -20,19 +20,19 @@ public class UserController {
     @GetMapping
     public List<User> getUserList() {
         log.info("получение пользователей");
-        return userService.getUserStorage().getAllUsers();
+        return userService.getAllUsers();
     }
 
     @PostMapping
     public User postUser(@Valid @RequestBody User user) {
         log.info("добавление пользователя");
-        return userService.getUserStorage().addUser(user);
+        return userService.addUser(user);
     }
 
     @PutMapping
     public User updateUser(@Valid @RequestBody User user) {
         log.info("изменение пользователя");
-        return userService.getUserStorage().updateUser(user);
+        return userService.updateUser(user);
     }
 
     @GetMapping("/{id}")
