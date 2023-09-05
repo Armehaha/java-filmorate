@@ -1,6 +1,8 @@
 package ru.yandex.practicum.service.db;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Service;
@@ -13,15 +15,12 @@ import ru.yandex.practicum.storage.FilmStorage;
 import java.util.List;
 
 @Service
+@Primary
+@RequiredArgsConstructor
 public class FilmServiceDb implements FilmServiceInt {
     private final JdbcTemplate jdbcTemplate;
-    @Getter
     private final FilmStorage filmStorage;
 
-    public FilmServiceDb(JdbcTemplate jdbcTemplate, FilmStorage filmStorage) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.filmStorage = filmStorage;
-    }
 
     @Override
     public void putLike(long filmId, int userId) {

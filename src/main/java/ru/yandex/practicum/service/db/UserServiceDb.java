@@ -1,6 +1,8 @@
 package ru.yandex.practicum.service.db;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Service;
@@ -12,15 +14,12 @@ import ru.yandex.practicum.storage.UserStorage;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
+@Primary
 public class UserServiceDb implements UserServiceInt {
     private final JdbcTemplate jdbc;
-    @Getter
-    private final UserStorage userStorage;
 
-    public UserServiceDb(JdbcTemplate jdbc, UserStorage userStorage) {
-        this.jdbc = jdbc;
-        this.userStorage = userStorage;
-    }
+    private final UserStorage userStorage;
 
     @Override
     public List<User> getFriends(long userId) {
