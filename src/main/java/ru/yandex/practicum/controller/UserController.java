@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.model.User;
-import ru.yandex.practicum.service.UserService;
+import ru.yandex.practicum.service.db.UserServiceDb;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -14,7 +14,7 @@ import java.util.*;
 @Slf4j
 @RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
+    private final UserServiceDb userService;
 
 
     @GetMapping

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.model.Film;
-import ru.yandex.practicum.service.FilmService;
+import ru.yandex.practicum.service.db.FilmServiceDb;
 
 import javax.validation.Valid;
 import javax.validation.ValidationException;
@@ -17,7 +17,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class FilmController {
 
-    private final FilmService filmService;
+    private final FilmServiceDb filmService;
 
 
     @GetMapping

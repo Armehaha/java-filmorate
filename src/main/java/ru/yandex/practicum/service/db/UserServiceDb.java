@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.exception.NotFoundException;
 import ru.yandex.practicum.model.User;
 import ru.yandex.practicum.service.UserServiceInt;
 import ru.yandex.practicum.storage.UserStorage;
@@ -17,8 +18,30 @@ import java.util.*;
 @Primary
 public class UserServiceDb implements UserServiceInt {
     private final JdbcTemplate jdbc;
-
     private final UserStorage userStorage;
+
+    public List<User> getAllUsers() {
+        return userStorage.getAllUsers();
+    }
+
+    public User addUser(User user) {
+        if (user.getName() == null || user.getName().isBlank()) {
+            user.setName(user.getLogin());
+        }
+        return userStorage.addUser(user);
+    }
+
+    public User updateUser(User user) {
+        return userStorage.updateUser(user);
+    }
+
+    public User getUserById(int userId) {
+        if (userStorage.getUserById(userId) != null) {
+            return userStorage.getUserById(userId);
+        } else {
+            throw new NotFoundException();
+        }
+    }
 
     @Override
     public List<User> getFriends(long userId) {
