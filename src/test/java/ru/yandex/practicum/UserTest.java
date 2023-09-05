@@ -172,7 +172,6 @@ public class UserTest {
     }
 
 
-
     @Test
     public void postUserNull() {
         final User user = null;
