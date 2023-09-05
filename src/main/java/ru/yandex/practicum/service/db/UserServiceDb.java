@@ -61,7 +61,7 @@ public class UserServiceDb implements UserServiceInt {
             String sqlQuery = "MERGE INTO user_friends (user_id, friend_id) VALUES (?, ?)";
             jdbc.update(sqlQuery, userId, friendId);
         } else {
-            throw new IllegalArgumentException("Данный пользователь уже добавлен в друзья");
+            throw new NotFoundException("Данный пользователь уже добавлен в друзья");
         }
     }
 
