@@ -8,7 +8,7 @@ import java.util.*;
 
 @Component
 public class InMemoryUserStorage implements UserStorage {
-    private final Map<Integer, User> userMap = new HashMap<>();
+    private final Map<Long, User> userMap = new HashMap<>();
     private int idUser = 1;
 
     @Override
@@ -34,12 +34,12 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public User getUserById(int userId) {
+    public User getUserById(long userId) {
         return userMap.get(userId);
     }
 
     @Override
-    public void updateUserFromId(int userId, User user) {
+    public void updateUserFromId(long userId, User user) {
         if (userMap.containsKey(user.getId())) {
             userMap.put(userId, user);
         } else {

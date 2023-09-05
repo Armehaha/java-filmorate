@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class FilmService {
+public class FilmService implements FilmServiceInt {
     private final FilmStorage filmStorage;
     private final UserStorage userStorage;
 
@@ -38,7 +38,7 @@ public class FilmService {
     }
 
 
-    public void putLike(int filmId, int userId) {
+    public void putLike(long filmId, int userId) {
         if (userStorage.getUserById(userId) == null) {
             throw new NotFoundException();
         }
@@ -55,7 +55,7 @@ public class FilmService {
         filmStorage.updateFilmFromId(filmId, film);
     }
 
-    public void deleteLike(int filmId, int userId) {
+    public void deleteLike(long filmId, int userId) {
         if (userStorage.getUserById(userId) == null) {
             throw new NotFoundException("userId");
         }

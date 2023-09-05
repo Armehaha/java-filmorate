@@ -11,7 +11,7 @@ public interface FilmStorage {
 
     Film updateFilm(Film film);
 
-    Film getById(int filmId);
+    Film getById(long filmId);
 
-    void updateFilmFromId(int filmId, Film film);
+    void updateFilmFromId(long filmId, Film film);
 }

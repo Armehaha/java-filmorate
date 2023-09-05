@@ -8,7 +8,7 @@ import java.util.*;
 
 @Component
 public class InMemoryFilmStorage implements FilmStorage {
-    private final Map<Integer, Film> filmMap = new HashMap<>();
+    private final Map<Long, Film> filmMap = new HashMap<>();
     private int id = 1;
 
     @Override
@@ -33,12 +33,12 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public Film getById(int filmId) {
+    public Film getById(long filmId) {
         return filmMap.get(filmId);
     }
 
     @Override
-    public void updateFilmFromId(int filmId, Film film) {
+    public void updateFilmFromId(long filmId, Film film) {
         if (filmMap.containsKey(film.getId())) {
             filmMap.put(filmId, film);
         } else
