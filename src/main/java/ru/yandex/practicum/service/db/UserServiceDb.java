@@ -55,13 +55,16 @@ public class UserServiceDb implements UserServiceInt {
 
     @Override
     public void putFriend(int userId, int friendId) {
+        if (userStorage.getUserById(userId) == null || userStorage.getUserById(friendId) == null) {
+            throw new NotFoundException();
+        }
         validationIdUser(userId);
         validationIdUser(friendId);
         if (isFriends(userId, friendId)) {
             String sqlQuery = "MERGE INTO user_friends (user_id, friend_id) VALUES (?, ?)";
             jdbc.update(sqlQuery, userId, friendId);
         } else {
-            throw new NotFoundException("Данный пользователь уже добавлен в друзья");
+            throw new IllegalArgumentException("Данный пользователь уже добавлен в друзья");
         }
     }
 
