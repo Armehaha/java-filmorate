@@ -30,12 +30,9 @@ public class FilmDbStorage implements FilmStorage {
         this.mpa = mpa;
     }
 
-
     @Override
     public List<Film> getAllFilms() {
-        String sqlQuery = "SELECT distinct f.film_id FROM films f" +
-                " join films_genre fg on f.film_id = fg.film_id " +
-                " join mpa ul on f.mpa_id  = ul.mpa_id ORDER BY f.film_id";
+        String sqlQuery = "SELECT film_id FROM films ORDER BY film_id";
         return jdbcTemplate.query(sqlQuery, (rs, rowNum) -> getById(rs.getInt("film_id")));
     }
 
