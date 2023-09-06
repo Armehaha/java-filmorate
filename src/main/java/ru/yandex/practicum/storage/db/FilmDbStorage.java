@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.exception.NotFoundException;
 import ru.yandex.practicum.model.Film;
 import ru.yandex.practicum.model.FilmGenre;
 import ru.yandex.practicum.storage.FilmStorage;
@@ -53,6 +54,7 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film updateFilm(Film film) {
+        validationFilm(film.getId());
         String sqlQuery = "UPDATE films SET name = ?, likes = ?, description = ?,  duration = ?, release_date = ?, " +
                 "mpa_id = ? WHERE film_id = ?";
         jdbcTemplate.update(sqlQuery,
@@ -70,9 +72,17 @@ public class FilmDbStorage implements FilmStorage {
         }
         return getById(film.getId());
     }
+    private void validationFilm(long filmId) {
+        String sqlQuery = "SELECT * FROM films WHERE film_id = ?";
+        SqlRowSet film = jdbcTemplate.queryForRowSet(sqlQuery, filmId);
 
+        if (!film.next()) {
+            throw new NotFoundException("Такого фильма нет");
+        }
+    }
     @Override
     public Film getById(long filmId) {
+        validationFilm(filmId);
         String sqlFilm = "SELECT * FROM films WHERE film_id = ?";
         String sqlGenre = "SELECT genre_id FROM films_genre WHERE film_id = ?";
         String sqlUsersLike = "SELECT * FROM users_like WHERE film_id = ?";
