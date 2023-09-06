@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements IUserService {
     private final UserStorage userStorage;
 
     public List<User> getAllUsers() {
@@ -103,7 +103,7 @@ public class UserService {
         return mutualFriends;
     }
 
-    public List<User> getFriends(int userId) {
+    public List<User> getFriends(long userId) {
         if (userStorage.getUserById(userId) == null) {
             throw new NotFoundException();
         }
