@@ -23,7 +23,7 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public User addUser(User user) {
-          SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("users")
                 .usingGeneratedKeyColumns("id");
         long key = simpleJdbcInsert.executeAndReturnKey(user.toMap()).longValue();
@@ -35,16 +35,17 @@ public class UserDbStorage implements UserStorage {
     @Override
     public User updateUser(User user) {
         String sqlQuery = "UPDATE users SET email = ?, name = ?, login = ?, birthday = ? WHERE id = ?";
-        validationIdUser(user.getId());
-        jdbcTemplate.update(sqlQuery,
+        int answer = jdbcTemplate.update(sqlQuery,
                 user.getEmail(),
                 user.getName(),
                 user.getLogin(),
                 user.getBirthday(),
                 user.getId());
-        User newUser = getUserById(user.getId());
+        if (answer == 0) {
+            throw new NotFoundException("Пользователь с таким айди не найден");
+        }
 
-        return newUser;
+        return getUserById(user.getId());
     }
 
     @Override
@@ -78,14 +79,4 @@ public class UserDbStorage implements UserStorage {
     public void updateUserFromId(long userId, User user) {
 
     }
-
-    private void validationIdUser(long userId) {
-        SqlRowSet sqlUser = jdbcTemplate.queryForRowSet("SELECT * FROM users WHERE id = ?", userId);
-
-        if (!sqlUser.next()) {
-            throw new NotFoundException("Пользователь с таким айди не найден");
-        }
-    }
-
-
 }
