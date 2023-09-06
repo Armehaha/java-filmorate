@@ -72,6 +72,7 @@ public class FilmDbStorage implements FilmStorage {
         }
         return getById(film.getId());
     }
+
     private void validationFilm(long filmId) {
         String sqlQuery = "SELECT * FROM films WHERE film_id = ?";
         SqlRowSet film = jdbcTemplate.queryForRowSet(sqlQuery, filmId);
@@ -80,6 +81,7 @@ public class FilmDbStorage implements FilmStorage {
             throw new NotFoundException("Такого фильма нет");
         }
     }
+
     @Override
     public Film getById(long filmId) {
         validationFilm(filmId);
