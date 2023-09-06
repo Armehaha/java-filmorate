@@ -7,7 +7,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.exception.NotFoundException;
 import ru.yandex.practicum.model.User;
-import ru.yandex.practicum.service.UserServiceInt;
+import ru.yandex.practicum.service.IUserService;
 import ru.yandex.practicum.storage.UserStorage;
 
 
@@ -16,7 +16,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 @Primary
-public class UserServiceDb implements UserServiceInt {
+public class UserServiceDb implements IUserService {
     private final JdbcTemplate jdbc;
     private final UserStorage userStorage;
 
@@ -25,6 +25,7 @@ public class UserServiceDb implements UserServiceInt {
     }
 
     public User addUser(User user) {
+        validationName(user);
         if (user.getName() == null || user.getName().isBlank()) {
             user.setName(user.getLogin());
         }
@@ -32,6 +33,7 @@ public class UserServiceDb implements UserServiceInt {
     }
 
     public User updateUser(User user) {
+        validationName(user);
         return userStorage.updateUser(user);
     }
 
@@ -113,5 +115,13 @@ public class UserServiceDb implements UserServiceInt {
         if (!sqlUser.next()) {
             throw new NoSuchElementException("Пользователь с таким айди не найден");
         }
+    }
+
+    private User validationName(User user) {
+        if (user.getName() == null || user.getName().isBlank()) {
+            user.setName(user.getLogin());
+        }
+
+        return user;
     }
 }

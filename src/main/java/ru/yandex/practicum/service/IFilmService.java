@@ -5,7 +5,7 @@ import ru.yandex.practicum.model.Film;
 
 import java.util.List;
 
-public interface FilmServiceInt {
+public interface IFilmService {
     List<Film> getPopularFilm(int count);
 
     void deleteLike(long filmId, int userId);

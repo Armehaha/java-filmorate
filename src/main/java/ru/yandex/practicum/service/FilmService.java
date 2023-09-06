@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class FilmService implements FilmServiceInt {
+public class FilmService implements IFilmService {
     private final FilmStorage filmStorage;
     private final UserStorage userStorage;
 

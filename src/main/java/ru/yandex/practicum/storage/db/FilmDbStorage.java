@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.exception.NotFoundException;
 import ru.yandex.practicum.model.Film;
 import ru.yandex.practicum.model.FilmGenre;
 import ru.yandex.practicum.storage.FilmStorage;
@@ -30,19 +29,12 @@ public class FilmDbStorage implements FilmStorage {
         this.mpa = mpa;
     }
 
-    private void validationFilm(long filmId) {
-        String sqlQuery = "SELECT * FROM films WHERE film_id = ?";
-        SqlRowSet film = jdbcTemplate.queryForRowSet(sqlQuery, filmId);
-
-        if (!film.next()) {
-            throw new NotFoundException("Такого фильма нет");
-        }
-    }
 
     @Override
     public List<Film> getAllFilms() {
-        String sqlQuery = "SELECT film_id FROM films ORDER BY film_id";
-
+        String sqlQuery = "SELECT distinct f.film_id FROM films f" +
+                " join films_genre fg on f.film_id = fg.film_id " +
+                " join mpa ul on f.mpa_id  = ul.mpa_id ORDER BY f.film_id";
         return jdbcTemplate.query(sqlQuery, (rs, rowNum) -> getById(rs.getInt("film_id")));
     }
 
@@ -61,8 +53,6 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film updateFilm(Film film) {
-        validationFilm(film.getId());
-
         String sqlQuery = "UPDATE films SET name = ?, likes = ?, description = ?,  duration = ?, release_date = ?, " +
                 "mpa_id = ? WHERE film_id = ?";
         jdbcTemplate.update(sqlQuery,
@@ -83,8 +73,6 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film getById(long filmId) {
-        validationFilm(filmId);
-
         String sqlFilm = "SELECT * FROM films WHERE film_id = ?";
         String sqlGenre = "SELECT genre_id FROM films_genre WHERE film_id = ?";
         String sqlUsersLike = "SELECT * FROM users_like WHERE film_id = ?";

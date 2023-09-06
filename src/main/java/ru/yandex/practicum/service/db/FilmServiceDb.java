@@ -8,7 +8,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.exception.NotFoundException;
 import ru.yandex.practicum.model.Film;
-import ru.yandex.practicum.service.FilmServiceInt;
+import ru.yandex.practicum.service.IFilmService;
 import ru.yandex.practicum.storage.FilmStorage;
 
 
@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 @Primary
 @RequiredArgsConstructor
-public class FilmServiceDb implements FilmServiceInt {
+public class FilmServiceDb implements IFilmService {
     private final JdbcTemplate jdbcTemplate;
     private final FilmStorage filmStorage;
 

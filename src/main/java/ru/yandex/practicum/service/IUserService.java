@@ -5,7 +5,7 @@ import ru.yandex.practicum.model.User;
 
 import java.util.List;
 
-public interface UserServiceInt {
+public interface IUserService {
     List<User> getFriends(long userId);
 
     void putFriend(int userId, int friendId);

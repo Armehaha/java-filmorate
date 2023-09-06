@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import ru.yandex.practicum.exception.NotFoundException;
 import ru.yandex.practicum.model.FilmGenre;
 import ru.yandex.practicum.storage.GenreStorage;
@@ -14,7 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-@Service
+@Component
 @Primary
 public class GenreDbStorage implements GenreStorage {
     private final JdbcTemplate jdbcTemplate;

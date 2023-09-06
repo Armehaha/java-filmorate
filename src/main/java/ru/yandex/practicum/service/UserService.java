@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements UserServiceInt {
+public class UserService implements IUserService {
     private final UserStorage userStorage;
 
     public List<User> getAllUsers() {

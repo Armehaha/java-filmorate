@@ -88,7 +88,7 @@ public class FilmStorageTest {
         film2 = filmStorage.addFilm(film2);
         film3 = filmStorage.addFilm(film3);
         List<Film> listFilms = filmStorage.getAllFilms();
-
+        System.out.println("dsfsfsdfsdf"+ listFilms);
         assertThat(listFilms).asList().hasSize(3);
         assertThat(listFilms).asList().contains(filmStorage.getById(film.getId()));
         assertThat(listFilms).asList().contains(filmStorage.getById(film2.getId()));

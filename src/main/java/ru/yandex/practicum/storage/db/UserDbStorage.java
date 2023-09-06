@@ -23,9 +23,7 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public User addUser(User user) {
-        user = validationName(user);
-
-        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+          SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("users")
                 .usingGeneratedKeyColumns("id");
         long key = simpleJdbcInsert.executeAndReturnKey(user.toMap()).longValue();
@@ -37,8 +35,6 @@ public class UserDbStorage implements UserStorage {
     @Override
     public User updateUser(User user) {
         String sqlQuery = "UPDATE users SET email = ?, name = ?, login = ?, birthday = ? WHERE id = ?";
-        user = validationName(user);
-
         validationIdUser(user.getId());
         jdbcTemplate.update(sqlQuery,
                 user.getEmail(),
@@ -91,11 +87,5 @@ public class UserDbStorage implements UserStorage {
         }
     }
 
-    private User validationName(User user) {
-        if (user.getName() == null || user.getName().isBlank()) {
-            user.setName(user.getLogin());
-        }
 
-        return user;
-    }
 }
