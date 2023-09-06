@@ -12,11 +12,7 @@ import ru.yandex.practicum.model.Film;
 import ru.yandex.practicum.model.FilmGenre;
 import ru.yandex.practicum.model.FilmMPA;
 import ru.yandex.practicum.model.User;
-import ru.yandex.practicum.service.db.FilmServiceDb;
 import ru.yandex.practicum.service.db.UserServiceDb;
-import ru.yandex.practicum.storage.FilmStorage;
-import ru.yandex.practicum.storage.GenreDao;
-import ru.yandex.practicum.storage.MPADao;
 import ru.yandex.practicum.storage.UserStorage;
 
 import java.time.LocalDate;
@@ -30,14 +26,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @AutoConfigureTestDatabase
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class FilmorateDatabaseTest {
-
+public class UserStorageTest {
     private final UserStorage userStorage;
     private final UserServiceDb userService;
-    private final FilmStorage filmStorage;
-    private final FilmServiceDb filmService;
-    private final MPADao mpaService;
-    private final GenreDao genreService;
     User user;
     User user2;
     User user3;
@@ -47,7 +38,6 @@ public class FilmorateDatabaseTest {
     Film film3;
     FilmMPA mpaFilm = new FilmMPA();
     Set<FilmGenre> genresFilm;
-
 
     @BeforeEach
     public void createObjects() {
@@ -172,170 +162,5 @@ public class FilmorateDatabaseTest {
 
         assertThat(listUsers).asList().hasSize(0);
         assertThat(listUsers).asList().isEmpty();
-    }
-
-    @Test
-    public void addFilmNormal() {
-        film = filmStorage.addFilm(film);
-        Optional<Film> filmOptional = Optional.ofNullable(filmStorage.getById(film.getId()));
-
-        assertThat(filmOptional)
-                .hasValueSatisfying(f ->
-                        assertThat(f)
-                                .hasFieldOrPropertyWithValue("id", film.getId())
-                                .hasFieldOrPropertyWithValue("name", "sdfsf")
-                                .hasFieldOrPropertyWithValue("description", "sfsadfasdf")
-                                .hasFieldOrPropertyWithValue("releaseDate",
-                                        LocalDate.of(2017, 12, 5))
-                                .hasFieldOrPropertyWithValue("duration",
-                                        100)
-                                .hasFieldOrPropertyWithValue("mpa.id", 3));
-    }
-
-
-    @Test
-    public void getListFilms() {
-        film = filmStorage.addFilm(film);
-        film2 = filmStorage.addFilm(film2);
-        film3 = filmStorage.addFilm(film3);
-        List<Film> listFilms = filmStorage.getAllFilms();
-
-        assertThat(listFilms).asList().hasSize(3);
-        assertThat(listFilms).asList().contains(filmStorage.getById(film.getId()));
-        assertThat(listFilms).asList().contains(filmStorage.getById(film2.getId()));
-        assertThat(listFilms).asList().contains(filmStorage.getById(film3.getId()));
-        assertThat(Optional.of(listFilms.get(0)))
-                .hasValueSatisfying(film ->
-                        AssertionsForClassTypes.assertThat(film)
-                                .hasFieldOrPropertyWithValue("name", "sdfsf"));
-        assertThat(Optional.of(listFilms.get(1)))
-                .hasValueSatisfying(film ->
-                        AssertionsForClassTypes.assertThat(film)
-                                .hasFieldOrPropertyWithValue("name", "sdfsf"));
-        assertThat(Optional.of(listFilms.get(2)))
-                .hasValueSatisfying(film ->
-                        AssertionsForClassTypes.assertThat(film)
-                                .hasFieldOrPropertyWithValue("name", "sdfsf"));
-    }
-
-    @Test
-    public void getListFilmsEmpty() {
-        List<Film> listFilms = filmStorage.getAllFilms();
-
-        assertThat(listFilms).asList().hasSize(0);
-        assertThat(listFilms).asList().isEmpty();
-    }
-
-    @Test
-    public void addLikeNormal() {
-        user = userStorage.addUser(user);
-        film = filmStorage.addFilm(film);
-
-        filmService.putLike(film.getId(), (int) user.getId());
-        film = filmStorage.getById(film.getId());
-        Set<Integer> like = film.getUserLike();
-
-        assertThat(like).isEqualTo(Set.of(1));
-    }
-
-    @Test
-    public void deleteLikeNormal() {
-        user2 = userStorage.addUser(user2);
-        film2 = filmStorage.addFilm(film2);
-
-        filmService.putLike(film2.getId(), (int) user2.getId());
-        filmService.deleteLike(film2.getId(), (int) user2.getId());
-        film2 = filmStorage.getById(film2.getId());
-        Set<Integer> like = film.getUserLike();
-
-        assertThat(like).isEqualTo(Set.of());
-    }
-
-    @Test
-    public void getPopularFilms() {
-        user = userStorage.addUser(user);
-        user2 = userStorage.addUser(user2);
-        film = filmStorage.addFilm(film);
-        film2 = filmStorage.addFilm(film2);
-
-        filmService.putLike(film.getId(), (int) user.getId());
-        filmService.putLike(film2.getId(), (int) user2.getId());
-        filmService.putLike(film2.getId(), (int) film.getId());
-        List<Film> listPopular = filmService.getPopularFilm(10);
-
-        assertThat(listPopular).asList().hasSize(2);
-        assertThat(listPopular).asList().startsWith(filmStorage.getById(film2.getId()));
-        assertThat(listPopular).asList().contains(filmStorage.getById(film.getId()));
-        assertThat(Optional.of(listPopular.get(0)))
-                .hasValueSatisfying(film ->
-                        AssertionsForClassTypes.assertThat(film)
-                                .hasFieldOrPropertyWithValue("name", "sdfsf"));
-        assertThat(Optional.of(listPopular.get(1)))
-                .hasValueSatisfying(film ->
-                        AssertionsForClassTypes.assertThat(film)
-                                .hasFieldOrPropertyWithValue("name", "sdfsf"));
-    }
-
-    @Test
-    public void getPopularFilm() {
-        user = userStorage.addUser(user);
-        user2 = userStorage.addUser(user2);
-        film = filmStorage.addFilm(film);
-        film2 = filmStorage.addFilm(film2);
-
-        filmService.putLike(film.getId(), (int) user.getId());
-        filmService.putLike(film2.getId(), (int) user2.getId());
-        filmService.putLike(film2.getId(), (int) film.getId());
-        List<Film> listPopular = filmService.getPopularFilm(1);
-
-        assertThat(listPopular).asList().hasSize(1);
-        assertThat(listPopular).asList().startsWith(filmStorage.getById(film2.getId()));
-        assertThat(Optional.of(listPopular.get(0)))
-                .hasValueSatisfying(film ->
-                        AssertionsForClassTypes.assertThat(film)
-                                .hasFieldOrPropertyWithValue("name", "sdfsf"));
-    }
-
-    @Test
-    public void getAllMPA() {
-        List<FilmMPA> all = mpaService.getAllMPA();
-        assertThat(all).asList().hasSize(5);
-        final int first = 1;
-        final int second = 2;
-
-        assertThat(all).asList().startsWith(mpaService.getMPAById(first));
-        assertThat(all).asList().contains(mpaService.getMPAById(second));
-    }
-
-    @Test
-    public void getMPAById() {
-        final int third = 3;
-        final String name = "PG-13";
-
-        assertThat(mpaService.getMPAById(third))
-                .hasFieldOrPropertyWithValue("id", 3)
-                .hasFieldOrPropertyWithValue("name", name);
-    }
-
-    @Test
-    public void shouldListGenres() {
-        List<FilmGenre> listGenres = genreService.getAllGenre();
-
-        assertThat(listGenres).asList().hasSize(6);
-        final int first = 1;
-        final int second = 2;
-
-        assertThat(listGenres).asList().startsWith(genreService.getGenreById(first));
-        assertThat(listGenres).asList().contains(genreService.getGenreById(second));
-    }
-
-    @Test
-    public void getGenreById() {
-        final int id = 3;
-        final String name = "Мультфильм";
-
-        assertThat(genreService.getGenreById(id))
-                .hasFieldOrPropertyWithValue("id", id)
-                .hasFieldOrPropertyWithValue("name", name);
     }
 }

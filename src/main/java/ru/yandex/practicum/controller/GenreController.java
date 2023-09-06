@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.practicum.model.FilmGenre;
-import ru.yandex.practicum.storage.db.GenreImpl;
+import ru.yandex.practicum.service.GenreService;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GenreController {
 
-    private final GenreImpl genre;
+    private final GenreService genre;
 
     @GetMapping
     public List<FilmGenre> getAllGenres() {

@@ -13,4 +13,12 @@ public interface UserServiceInt {
     void deleteFriend(int userId, int friendId);
 
     List<User> getMutualFriends(int userId, int otherId);
+
+    List<User> getAllUsers();
+
+    User addUser(User user);
+
+    User updateUser(User user);
+
+    User getUserById(int id);
 }

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.practicum.model.FilmMPA;
-import ru.yandex.practicum.storage.db.MPAImpl;
+import ru.yandex.practicum.service.MPAService;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MPAController {
 
-    private final MPAImpl mpa;
+    private final MPAService mpa;
 
     @GetMapping
     public List<FilmMPA> getAllMPA() {

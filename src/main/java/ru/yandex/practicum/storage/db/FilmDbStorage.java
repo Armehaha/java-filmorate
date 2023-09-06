@@ -9,7 +9,7 @@ import ru.yandex.practicum.exception.NotFoundException;
 import ru.yandex.practicum.model.Film;
 import ru.yandex.practicum.model.FilmGenre;
 import ru.yandex.practicum.storage.FilmStorage;
-import ru.yandex.practicum.storage.MPADao;
+import ru.yandex.practicum.storage.MPAStorage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,10 +21,10 @@ import java.util.Set;
 @Primary
 public class FilmDbStorage implements FilmStorage {
     private final JdbcTemplate jdbcTemplate;
-    private final GenreImpl genre;
-    private final MPADao mpa;
+    private final GenreDbStorage genre;
+    private final MPAStorage mpa;
 
-    public FilmDbStorage(JdbcTemplate jdbcTemplate, GenreImpl genre, MPADao mpa) {
+    public FilmDbStorage(JdbcTemplate jdbcTemplate, GenreDbStorage genre, MPAStorage mpa) {
         this.jdbcTemplate = jdbcTemplate;
         this.genre = genre;
         this.mpa = mpa;
@@ -110,6 +110,16 @@ public class FilmDbStorage implements FilmStorage {
     @Override
     public void updateFilmFromId(long filmId, Film film) {
 
+        String sqlQuery = "UPDATE films SET name = ?, likes = ?, description = ?,  duration = ?, release_date = ?, " +
+                "mpa_id = ? WHERE film_id = ?";
+        jdbcTemplate.update(sqlQuery,
+                film.getName(),
+                film.getLikes(),
+                film.getDescription(),
+                film.getDuration(),
+                film.getReleaseDate(),
+                film.getMpa().getId(),
+                filmId);
     }
 
     private FilmGenre makeGenre(ResultSet rs) throws SQLException {

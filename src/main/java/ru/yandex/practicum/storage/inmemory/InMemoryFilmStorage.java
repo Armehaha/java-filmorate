@@ -1,8 +1,9 @@
-package ru.yandex.practicum.storage;
+package ru.yandex.practicum.storage.inmemory;
 
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.exception.NotFoundException;
 import ru.yandex.practicum.model.Film;
+import ru.yandex.practicum.storage.FilmStorage;
 
 import java.util.*;
 

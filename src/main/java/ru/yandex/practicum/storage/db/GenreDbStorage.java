@@ -7,7 +7,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.exception.NotFoundException;
 import ru.yandex.practicum.model.FilmGenre;
-import ru.yandex.practicum.storage.GenreDao;
+import ru.yandex.practicum.storage.GenreStorage;
 
 
 import java.sql.ResultSet;
@@ -16,11 +16,11 @@ import java.util.List;
 
 @Service
 @Primary
-public class GenreImpl implements GenreDao {
+public class GenreDbStorage implements GenreStorage {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public GenreImpl(JdbcTemplate jdbcTemplate) {
+    public GenreDbStorage(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

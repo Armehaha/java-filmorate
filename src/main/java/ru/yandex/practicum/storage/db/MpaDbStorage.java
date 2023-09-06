@@ -6,7 +6,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.exception.NotFoundException;
 import ru.yandex.practicum.model.FilmMPA;
-import ru.yandex.practicum.storage.MPADao;
+import ru.yandex.practicum.storage.MPAStorage;
 
 
 import java.sql.ResultSet;
@@ -15,10 +15,10 @@ import java.util.List;
 
 @Service
 @Primary
-public class MPAImpl implements MPADao {
+public class MpaDbStorage implements MPAStorage {
     private final JdbcTemplate jdbcTemplate;
 
-    public MPAImpl(JdbcTemplate jdbcTemplate) {
+    public MpaDbStorage(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
